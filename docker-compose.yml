@@ -1,18 +1,20 @@
-version: '3.8'
 services:
   flask_app:
     image: flask_app_image
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8080:5000"
+      - "8001:5000"
     depends_on:
       - db
     environment:
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_NAME=flaskdb
-      - DB_USER=root
-      - DB_PASSWORD=password
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: flaskdb
+      DB_USER: root
+      DB_PASSWORD: password
+    restart: always
 
   db:
     image: mysql:8.0

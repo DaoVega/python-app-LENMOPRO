@@ -17,25 +17,6 @@ def get_db_connection():
 def index():
     return render_template('index.html')
 
-from flask import Flask, request, jsonify, render_template
-import mysql.connector
-
-app = Flask(__name__)
-
-# Función para conectar a la base de datos
-def get_db_connection():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='password',
-        database='flaskdb'
-    )
-
-# Ruta principal: muestra el formulario
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 # Ruta para registrar el correo
 @app.route('/register', methods=['POST'])
 def register():
@@ -64,8 +45,6 @@ def register():
             print(f"Error general: {e}")
             return jsonify({'error': 'Error al registrar usuario'}), 500
 
-
-
 def init_db():
     try:
         connection = get_db_connection()
@@ -73,6 +52,7 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
                 email VARCHAR(255) NOT NULL UNIQUE
             )
         ''')
@@ -88,5 +68,5 @@ def init_db():
 if __name__ == '__main__':
     print("Iniciando la aplicación...")
     init_db() 
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=5000)
 
